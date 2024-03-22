@@ -1,92 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryCoppelAzul2"
-    android:orientation="vertical"
+    android:background="@color/azul_app_asistencia"
     tools:context=".LoginActivity">
 
+    <LinearLayout
+        android:id="@+id/nombreapp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"
+        tools:ignore="MissingConstraints,UseCompoundDrawables">
 
-    <TextView
-        android:layout_width="250dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="75dp"
-        android:layout_marginTop="25dp"
-        android:text="@string/asistencia_app"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="25dp"
+                android:text="@string/asistencia_app"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="50sp"
+                android:textStyle="bold" />
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="145dp"
-        android:contentDescription="TODO"
-        android:src="@drawable/logoapp" />
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="130dp"
+                android:textAlignment="center"
+                android:contentDescription="TODO"
+                android:src="@drawable/logoapp" />
 
+    </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/ediTextUsuario"
-        android:layout_width="286dp"
-        android:layout_height="45dp"
+    <LinearLayout
+        android:id="@+id/datosusuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nombreapp"
         android:layout_marginTop="20dp"
-        android:background="@color/white"
-        android:digits="0123456789"
-        android:ems="10"
-        android:hint="@string/employer_num"
-        android:inputType="number"
-        android:layout_marginStart="60dp"
-        android:paddingStart="10dp"
-        android:maxLength="8"
-        tools:ignore="MissingConstraints" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="13dp"
-        android:layout_marginStart="60dp"
-        android:textColor="@color/white"
-        android:text="@string/eight_digits"/>
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="286dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:paddingStart="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/loginbtn"
-        android:background="@color/white"
-        android:maxLength="8"
-        android:drawableEnd="@drawable/eye_icon"
-        app:endIconMode="password_toggle"
-        android:hint="@string/password_hint"
-        tools:ignore="MissingConstraints" />
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/ediTextUsuario"
+                android:layout_width="286dp"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:digits="0123456789"
+                android:ems="10"
+                android:hint="@string/employer_num"
+                android:inputType="number"
+                android:paddingStart="10dp"
+                android:maxLength="8"
+                tools:ignore="MissingConstraints,RtlSymmetry" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="13dp"
-        android:layout_marginStart="60dp"
-        android:textColor="@color/white"
-        android:text="@string/eigth_caracteres"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/eight_digits"
+            android:textColor="@color/white"
+            android:gravity="start"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="286dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:paddingStart="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/loginbtn"
+                android:background="@color/white"
+                android:maxLength="8"
+                android:drawableEnd="@drawable/eye_icon"
+                app:endIconMode="password_toggle"
+                android:hint="@string/password_hint"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:textColor="@color/white"
+                android:text="@string/eigth_caracteres"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonEntrar"
         android:layout_width="186dp"
         android:layout_height="60dp"
-        android:layout_marginStart="110dp"
         android:layout_marginTop="60dp"
         android:backgroundTint="@color/verde_btn_lgn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/datosusuario"
         android:text="@string/entrar_btn"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="18sp"
-        app:cornerRadius="8dip" />
+        app:cornerRadius="8dip"
+        tools:ignore="MissingConstraints" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
