@@ -8,7 +8,7 @@
     tools:context=".asistenciaapp.HomePrivilegeActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarHomePage"
+        android:id="@+id/toolbarHomePagePrivilege"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:background="@color/azul_app_asistencia"
@@ -34,7 +34,7 @@
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarHomePage">
+        app:layout_constraintTop_toBottomOf="@id/toolbarHomePagePrivilege">
 
         <View
             android:layout_width="8dp"
@@ -120,7 +120,7 @@
         android:layout_marginEnd="20dp"
         app:cardBackgroundColor="@color/color_btn_activo"
         app:cardCornerRadius="16dp"
-        app:layout_constraintEnd_toStartOf="@id/pausaPrivilege"
+        app:layout_constraintEnd_toStartOf="@id/pausePrivilege"
         android:layout_marginTop="35dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardInfoEmpleadoPrivilege">
@@ -146,7 +146,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/pausaPrivilege"
+        android:id="@+id/pausePrivilege"
         android:layout_width="160dp"
         android:layout_height="120dp"
         app:cardBackgroundColor="@color/color_btn_inactivo"
@@ -169,14 +169,14 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/vueltaPrivilege"
+        android:id="@+id/returnPrivilege"
         android:layout_width="160dp"
         android:layout_height="120dp"
         app:cardCornerRadius="16dp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="25dp"
-        app:layout_constraintEnd_toStartOf="@id/salidaPrivilege"
+        app:layout_constraintEnd_toStartOf="@id/exitPrivilege"
         android:backgroundTint="@color/color_btn_activo"
         app:layout_constraintTop_toBottomOf="@id/startPtivilege">
 
@@ -194,12 +194,12 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/salidaPrivilege"
+        android:id="@+id/exitPrivilege"
         android:layout_width="160dp"
         android:layout_height="120dp"
         app:cardCornerRadius="16dp"
-        app:layout_constraintStart_toEndOf="@id/vueltaPrivilege"
-        app:layout_constraintTop_toBottomOf="@id/pausaPrivilege"
+        app:layout_constraintStart_toEndOf="@id/returnPrivilege"
+        app:layout_constraintTop_toBottomOf="@id/pausePrivilege"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="25dp"
         android:backgroundTint="@color/color_btn_inactivo">
