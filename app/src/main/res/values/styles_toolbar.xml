@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.Text.Toolbar" parent="AppTheme.Text">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/linetocircularpromedium</item>
+    </style>
+
+    <style name="AppTheme.Text.Collection.Toolbar" parent="AppTheme.Text">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:fontFamily">@font/robotoblack</item>
+    </style>
+</resources>

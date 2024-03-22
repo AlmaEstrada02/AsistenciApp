@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSecundaryCoppelBlanco"
+    tools:context=".asistenciaapp.ListEmpActivity">
+
+    <FrameLayout
+        android:id="@+id/toolbarCollectionReportEmployee"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/azul_app_asistencia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageButtonBackListEmpl"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_arrow_back_white"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            app:tint="@color/white"
+            style="@style/AppTheme.Text.Blue.Bold"/>
+
+
+        <TextView
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:fontFamily="@font/circular_std"
+            android:layout_marginTop="16dp"
+            android:text="@string/reporte_empleados"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="75dp"
+            android:textAllCaps="true"
+            android:textSize="20sp" />
+
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/textReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/text_report_colab"
+        android:textColor="@color/colorTextCoppelNegro"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/viewPagerCollectionMyReport"
+        app:layout_constraintTop_toBottomOf="@id/toolbarCollectionReportEmployee"
+        android:layout_marginStart="10dp"/>
+
+    <androidx.viewpager.widget.ViewPager
+    android:id="@+id/viewPagerCollectionMyReport"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@id/viewBottomDegradado"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    android:layout_marginTop="8dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/textReport"
+    app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/viewBottomDegradado"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/show_elevation_effect"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayoutBottomFinalizar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frameLayoutBottomFinalizar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="165dp"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFinalizar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="18dp"
+            android:background="@drawable/button_meeting_point"
+            android:fontFamily="@font/circular_std"
+            android:text="@string/finalizar"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

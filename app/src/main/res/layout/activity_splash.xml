@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".asistenciaapp.SplashActivity">
+
+    <TextView
+        android:id="@+id/titulo_splash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_splas_titulo"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="45sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_horizontal"
+        tools:ignore="MissingConstraints"/>
+
+    <TextView
+        android:id="@+id/subtitulo_splash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_subt_splash"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:textSize="35sp"
+        app:layout_constraintTop_toBottomOf="@id/titulo_splash"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_horizontal"
+        tools:ignore="MissingConstraints"/>
+
+    <ImageView
+        android:layout_width="228dp"
+        android:layout_height="43dp"
+        android:src="@drawable/logo_coppel"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtitulo_splash"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

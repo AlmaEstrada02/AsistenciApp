@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="text_dialog_loader_title">Espere un momento</string>
+    <string name="text_dialog_loader_title_argentina">Esperá un momento</string>
+    <string name="text_dialog_loader_searching_client">Buscando cliente</string>
+    <string name="text_dialog_loader_print">Imprimiendo...</string>
+    <string name="text_dialog_loader_print_argentina">Tu ticket se está imprimiendo</string>
+
+    <string name="text_dialog_network_lost_title">¡Ups! El dispositivo no\n tiene señal.</string>
+    <string name="text_dialog_network_lost_message">"Esta acción no es posible realizar por el momentos. Intentalo mas tarde."</string>
+
+    <string name="txt_alert_print_payment_verification_title">Se imprimió el ticket\ncorrectamente.</string>
+    <string name="txt_alert_print_payment_verification_content">¿Deseas reimprimir el ticket\nnuevamente?</string>
+    <string name="title_dialog_map_movement_list">Listado de movimientos</string>
+
+    <string name="title_over_app_permissions">Ir a opción de cambiar permiso</string>
+    <string name="text_over_app_permissions">Permiso de ventanas emergentes</string>
+
+    <string name="title_loader_collaborate_support">Esperá un momento</string>
+    <string name="messages_loader_collaborate_support">Cargando listado</string>
+
+    <string name="messages_loader_confirm_deposit">Estamos generando tu depósito parcial</string>
+
+
+    <string name="messages_loader_Collection">Tu solicitud está siendo registrada</string>
+    <string name="messages_loader_receive_qr_result">Dinero en proceso</string>
+    <string name="messages_loader_collection_page">Procesando tu petición</string>
+    <string name="texto_dialog_close">¿Estás seguro de que deseas cerrar la sesión?</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/informacion"
+        android:icon="@drawable/term_cond"
+        android:title="@string/terminos_y_condiciones" />
+
+    <item
+        android:id="@+id/cerrar_sesion"
+        android:icon="@drawable/close"
+        android:title="@string/cerrar_sesion"/>
+</menu>

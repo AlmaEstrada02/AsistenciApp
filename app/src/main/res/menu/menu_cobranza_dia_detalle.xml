@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<item
+        android:id="@+id/btn_mes_ant"
+        android:icon="@drawable/ic_collection_day_receive"
+        android:title="RECIBIR"/>
+
+    <item
+        android:id="@+id/btn_ayer"
+        android:icon="@drawable/ic_collection_day_deliver"
+        android:title="ENTREGAR"/>
+
+    <item
+        android:id="@+id/btn_mas"
+        android:icon="@drawable/ic_depositar"
+        android:title="DEPOSITAR"/>-->
+
+</menu>

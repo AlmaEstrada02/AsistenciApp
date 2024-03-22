@@ -1,0 +1,36 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="font_size_mini">8sp</dimen>
+    <dimen name="font_size_xsmall">10sp</dimen>
+    <dimen name="font_size_small">11sp</dimen>
+    <dimen name="font_size_default">12sp</dimen>
+    <dimen name="font_size_big">14sp</dimen>
+    <dimen name="font_size_subheading">16sp</dimen>
+    <dimen name="font_size_heading">18sp</dimen>
+    <dimen name="font_size_subtitle">20sp</dimen>
+    <dimen name="font_size_title">22sp</dimen>
+    <dimen name="font_size_large">24sp</dimen>
+    <dimen name="font_size_super">26sp</dimen>
+    <dimen name="font_size_huge">30sp</dimen>
+    <dimen name="font_size_mega">32sp</dimen>
+    <dimen name="font_size_giant">36sp</dimen>
+    <dimen name="font_size_jumbo">48sp</dimen>
+    <dimen name="font_size_extra">60sp</dimen>
+
+    <dimen name="button_elevation">2dp</dimen>
+    <dimen name="radio_button_height">40dp</dimen>
+
+    <item type="dimen" format="float" name="line_multiplier">1.25</item>
+
+    <dimen name="tab_padding">8dp</dimen>
+    <dimen name="tab_label">8sp</dimen>
+
+    <dimen name="lbl_title">13sp</dimen>
+    <dimen name="text_data">14sp</dimen>
+    <dimen name="default_radius">8dp</dimen>
+    <dimen name="default_elevation">3dp</dimen>
+    <dimen name="new_radius">20dp</dimen>
+    <dimen name="snackbar_border_width">1dp</dimen>
+</resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="slidetoact_defaultAccent">#FF4081</color>
+    <color name="slidetoact_white">#FFFFFF</color>
+    <dimen name="slidetoact_default_area_margin">8dp</dimen>
+    <dimen name="slidetoact_default_icon_margin">16dp</dimen>
+    <dimen name="slidetoact_default_text_size">16sp</dimen>
+    <style name="SlideToActView">
+        <item name="text">SlideToActView</item>
+        <item name="text_size">@dimen/slidetoact_default_text_size</item>
+        <item name="area_margin">@dimen/slidetoact_default_area_margin</item>
+        <item name="inner_color">?android:colorBackground</item>
+        <item name="outer_color">?colorAccent</item>
+        <item name="slider_locked">false</item>
+    </style>
+    <declare-styleable name="SlideToActView">
+        <attr format="string" name="text"/>
+        <attr format="dimension" name="text_size"/>
+        <attr format="enum" name="text_style">
+            <enum name="normal" value="0"/>
+            <enum name="bold" value="1"/>
+            <enum name="italic" value="2"/>
+        </attr>
+        <attr format="dimension" name="area_margin"/>
+        <attr format="dimension" name="icon_margin"/>
+        <attr format="color" name="inner_color"/>
+        <attr format="color" name="outer_color"/>
+        <attr format="color" name="text_color"/>
+        <attr format="dimension" name="border_radius"/>
+        <attr format="dimension" name="slider_height"/>
+        <attr format="integer" name="animation_duration"/>
+        <attr format="integer" name="bump_vibration"/>
+        <attr format="boolean" name="slider_locked"/>
+        <attr format="boolean" name="slider_reversed"/>
+        <attr format="reference" name="slider_icon"/>
+        <attr format="color" name="slider_icon_color"/>
+        <attr format="boolean" name="rotate_icon"/>
+        <attr format="boolean" name="animate_completion"/>
+        <attr format="reference" name="text_appearance"/>
+        <attr format="reference" name="complete_icon"/>
+    </declare-styleable>
+    <declare-styleable name="SlideToActViewTheme">
+        <attr format="reference" name="slideToActViewStyle"/>
+    </declare-styleable>
+</resources>
