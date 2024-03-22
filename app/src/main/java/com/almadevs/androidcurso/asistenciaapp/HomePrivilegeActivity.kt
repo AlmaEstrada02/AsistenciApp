@@ -9,6 +9,7 @@ import android.icu.util.Calendar
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -67,13 +68,14 @@ class HomePrivilegeActivity : AppCompatActivity() {
         } else if (id_usuario.isNullOrEmpty()) {
             val intent = intent
             val id_usuarioIntent = intent.getStringExtra("id_usuario")
-            // Guardar el nombre del usuario en SharedPreferences
+            // Guardar el numero del usuario en SharedPreferences
             sharedPreferences.edit().putString("id_usuario", id_usuarioIntent).apply()
         }
 
         findViewById<TextView>(R.id.nombreEmpleadoPrivilege).text = nombre_usuario
         // Obtener la referencia al TextView
         val textDate = findViewById<TextView>(R.id.textDatePrivilege)
+
         // Obtener la fecha actual
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault())
@@ -92,10 +94,10 @@ class HomePrivilegeActivity : AppCompatActivity() {
         viewReturn = findViewById(R.id.returnPrivilege)
         viewExit = findViewById(R.id.exitPrivilege)
 
-        viewStart.setOnClickListener { actualizarEstadoUsuario(1) }
-        viewPause.setOnClickListener { actualizarEstadoUsuario(2) }
-        viewReturn.setOnClickListener { actualizarEstadoUsuario(3) }
-        viewExit.setOnClickListener { actualizarEstadoUsuario(4) }
+        viewStart.setOnClickListener { actualizarEstadoUsuario(0) }
+        viewPause.setOnClickListener { actualizarEstadoUsuario(1) }
+        viewReturn.setOnClickListener { actualizarEstadoUsuario(0) }
+        viewExit.setOnClickListener { actualizarEstadoUsuario(1) }
 
         // Obtener una referencia al menú inflado
         val menuInflater = menuInflater
@@ -154,7 +156,9 @@ class HomePrivilegeActivity : AppCompatActivity() {
     }
     private fun obtenerIdUsuario(): Int {
         val sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
-        return sharedPreferences.getInt("id_usuario", 0) // 0 es el valor predeterminado si no se encuentra el ID del usuario
+        val idUsuario = sharedPreferences.getInt("id_usuario", 0)
+        Log.d("TAG", "ID de usuario recuperado: $idUsuario")
+        return idUsuario
     }
 
     fun actualizarEstadoUsuario(nuevoEstado: Int) {

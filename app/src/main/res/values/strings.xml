@@ -43,7 +43,7 @@
     <string name="enter_password">Ingresa tu contraseña correctamente.</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="terminos_y_condiciones">Terminos y condiciones</string>
-    <string name="terminos_condiciones">Su usuario y contraseña personal en informatica equivalen a su firma y se utiliza para auntenticarte ante la aplicacion AsistenciApp. El registro de asistencia solo es para el conteo del personal en el edificio, no se toma en cuenta para las horas trabajadas.</string>
+    <string name="terminos_condiciones">Su usuario y contraseña personal en informatica equivalen a su firma y se utiliza para autenticarte ante la aplicacion AsistenciApp. El registro de asistencia solo es para el conteo del personal en el edificio, no se toma en cuenta para las horas trabajadas.</string>
     <string name="aceptar">Aceptar</string>
     <string name="texto_cierre_Sesion">¿Estás seguro de que deseas cerrar la sesión?</string>
     <string name="cancelar">Cancelar</string>
