@@ -1,19 +1,27 @@
 package com.almadevs.androidcurso.asistenciaapp
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import com.almadevs.androidcurso.LoginActivity
 import com.almadevs.androidcurso.R
+import com.google.android.material.appbar.MaterialToolbar
 import java.util.Locale
 
 
@@ -24,15 +32,39 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var viewStart:CardView
     private lateinit var viewPausa:CardView
+    private lateinit var sharedPreferences: SharedPreferences
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
+        val nombre_usuario = sharedPreferences.getString("nombre_usuario", "")
+        if (nombre_usuario.isNullOrEmpty()) {
+            val intent = intent
+            val nombre_usuarioIntent = intent.getStringExtra("nombre_usuario")
+            // Guardar el nombre del usuario en SharedPreferences
+            sharedPreferences.edit().putString("nombre_usuario", nombre_usuarioIntent).apply()
+        }
+
+        //modal menu cierre de sesion
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbarHomePage)
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_layout, null)
+        val builder = AlertDialog.Builder(this)
+        val buttonAceptar = dialogView.findViewById<Button>(R.id.buttonAceptar)
+
+
+        builder.setView(dialogView)
+        val dialog = builder.create()
+
+        buttonAceptar.setOnClickListener {
+            dialog.dismiss() // Cierra el diálogo
+        }
+
         // Obtener la referencia al TextView
         val textDate = findViewById<TextView>(R.id.textDate)
-        val nombre_usuario = intent.getStringExtra("nombre_usuario")
         findViewById<TextView>(R.id.nombreEmpleado).text = nombre_usuario
+
         // Obtener la fecha actual
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault())
@@ -43,6 +75,31 @@ class HomeActivity : AppCompatActivity() {
         initComponents()
         initListeners()
         initUI()
+
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.informacion -> {
+                    // Manejar la acción del elemento "Información"
+                    dialog.show()
+                    true
+                }
+                R.id.cerrar_sesion -> {
+                    // Manejar la acción del elemento "Cerrar Sesión"
+                    AlertDialog.Builder(this)
+                        .setTitle("Cerrar Sesión")
+                        .setMessage("¿Estás seguro de que deseas cerrar la sesión?")
+                        .setPositiveButton("Aceptar") { dialog, which ->
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        .setNegativeButton("Cancelar", null)
+                        .show()
+                    true
+                }
+                else -> false
+            }
+        }
 
     }
 
@@ -96,5 +153,6 @@ class HomeActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 
 }

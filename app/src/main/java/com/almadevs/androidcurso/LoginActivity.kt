@@ -1,11 +1,13 @@
 package com.almadevs.androidcurso
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.Button
@@ -73,16 +75,21 @@ class LoginActivity : AppCompatActivity() {
                     val tipoUsuario = jsonObject.getInt("tipo_usuario")
                     // Obtener el nombre de usuario del JSON de la respuesta
                     val nombre_usuario = jsonObject.getString("nombre_usuario")
+                    val id_usuario = jsonObject.getInt("id_usuario")
                     val intent = if (tipoUsuario == 0) {
                         Intent(applicationContext, HomePrivilegeActivity::class.java)
                     } else {
                         Intent(applicationContext, HomeActivity::class.java)
                     }
-                    // Pasa el nombre de usuario a la siguiente actividad
                     intent.putExtra("nombre_usuario", nombre_usuario)
+                    // Actualizar el id y el nombre de usuario en SharedPreferences
+                    actualizarNombreUsuarioEnSharedPreferences(nombre_usuario)
+                    startActivity(intent)
+
+                    actualizarIdUsuarioEnSharedPreferences(id_usuario) // Nuevo
                     startActivity(intent)
                 } else {
-                    snackBarMessage("  Verifica tu número de empleado o contraseña e intenta nuevamente")
+                    snackBarMessage("Verifica tu número de empleado o contraseña e intenta nuevamente")
                 }
             },
             Response.ErrorListener { error ->
@@ -98,6 +105,20 @@ class LoginActivity : AppCompatActivity() {
         }
         val requestQueue: RequestQueue = Volley.newRequestQueue(this)
         requestQueue.add(stringRequest)
+    }
+
+    private fun actualizarNombreUsuarioEnSharedPreferences(nombreUsuario: String) {
+        val sharedPreferences = applicationContext.getSharedPreferences("MyPreferences", MODE_PRIVATE)
+        sharedPreferences.edit().putString("nombre_usuario", nombreUsuario).apply()
+
+        Log.d("SharedPreferences", "Nombre de usuario actualizado: $nombreUsuario")
+    }
+
+    private fun actualizarIdUsuarioEnSharedPreferences(idUsuario: Int) {
+        val sharedPreferences = applicationContext.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putInt("id_usuario", idUsuario).apply()
+
+        Log.d("SharedPreferences", "ID de usuario actualizado: $idUsuario")
     }
 
 

@@ -20,40 +20,10 @@
         app:title="AsistenciApp"
         app:titleCentered="true"
         app:titleTextAppearance="@style/AppTheme.Text.Collection.Toolbar"
+        app:menu="@menu/menu_dashboard"
         app:titleTextColor="@color/white">
 
-        <LinearLayout
-            android:id="@+id/expanded_menu"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:orientation="vertical"
-            tools:ignore="UseCompoundDrawables">
 
-            <ImageView
-                android:id="@+id/imageButtonMenu"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="7dp"
-                android:src="@drawable/menu"
-                app:tint="@color/white">
-            </ImageView>
-
-            <TextView
-                android:id="@+id/textViewToolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/menu_mas"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-        </LinearLayout>
 
     </com.google.android.material.appbar.MaterialToolbar>
 
