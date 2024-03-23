@@ -96,7 +96,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginHorizontal="18dp"
-            android:background="@drawable/button_meeting_point"
+            android:background="@drawable/background_button"
             android:fontFamily="@font/circular_std"
             android:text="@string/finalizar"
             android:textAllCaps="false"
