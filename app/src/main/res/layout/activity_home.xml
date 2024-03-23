@@ -23,8 +23,6 @@
         app:menu="@menu/menu_dashboard"
         app:titleTextColor="@color/white">
 
-
-
     </com.google.android.material.appbar.MaterialToolbar>
 
     <com.google.android.material.card.MaterialCardView
@@ -123,7 +121,10 @@
         android:layout_marginEnd="20dp"
         android:backgroundTint="@color/color_btn_activo"
         app:cardCornerRadius="16dp"
-        app:layout_constraintEnd_toStartOf="@id/pausa"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:focusable="true"
+        app:layout_constraintEnd_toStartOf="@id/pause"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_info_empleado">
 
@@ -148,12 +149,15 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/pausa"
+        android:id="@+id/pause"
         android:layout_width="160dp"
         android:layout_height="120dp"
         android:layout_marginTop="25dp"
         android:backgroundTint="@color/color_btn_inactivo"
         app:cardCornerRadius="16dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/start"
         app:layout_constraintTop_toBottomOf="@id/card_info_empleado">
@@ -162,7 +166,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Pausa"
+            android:text="@string/pausa"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="15sp"
@@ -171,14 +175,17 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/vuelta"
+        android:id="@+id/returnn"
         android:layout_width="160dp"
         android:layout_height="120dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="@color/color_btn_activo"
         app:cardCornerRadius="16dp"
-        app:layout_constraintEnd_toStartOf="@id/salida"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:focusable="true"
+        app:layout_constraintEnd_toStartOf="@id/exit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/start">
 
@@ -186,7 +193,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Vuelta"
+            android:text="@string/vuelta"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="15sp"
@@ -196,15 +203,18 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/salida"
+        android:id="@+id/exit"
         android:layout_width="160dp"
         android:layout_height="120dp"
         android:layout_marginTop="25dp"
         android:backgroundTint="@color/color_btn_inactivo"
         app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/vuelta"
-        app:layout_constraintTop_toBottomOf="@id/pausa">
+        app:layout_constraintStart_toEndOf="@id/returnn"
+        app:layout_constraintTop_toBottomOf="@id/pause"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:focusable="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -245,12 +255,14 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginHorizontal="18dp"
-            android:background="@drawable/button_meeting_point"
+            android:background="@drawable/background_button"
             android:fontFamily="@font/circular_std"
             android:text="@string/meeting_point"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:clickable="true"
+            android:focusable="true"/>
 
     </FrameLayout>
 

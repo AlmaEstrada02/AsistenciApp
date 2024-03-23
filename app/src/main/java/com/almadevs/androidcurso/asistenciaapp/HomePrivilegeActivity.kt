@@ -44,7 +44,6 @@ class HomePrivilegeActivity : AppCompatActivity() {
     private lateinit var viewReturn: CardView
     private lateinit var viewExit: CardView
 
-
     private lateinit var btnReport: MenuItem
     private lateinit var btnListEmp: MenuItem
     private lateinit var sharedPreferences: SharedPreferences
@@ -57,19 +56,25 @@ class HomePrivilegeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home_privilege)
         sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
         val nombre_usuario = sharedPreferences.getString("nombre_usuario", "")
-        val id_usuario = sharedPreferences.getString("usuario", "")
+        val idUsuario = sharedPreferences.getInt("id_usuario", 0)
 
 
         if (nombre_usuario.isNullOrEmpty()) {
-            val intent = intent
             val nombre_usuarioIntent = intent.getStringExtra("nombre_usuario")
-            // Guardar el nombre del usuario en SharedPreferences
-            sharedPreferences.edit().putString("nombre_usuario", nombre_usuarioIntent).apply()
-        } else if (id_usuario.isNullOrEmpty()) {
-            val intent = intent
-            val id_usuarioIntent = intent.getStringExtra("id_usuario")
-            // Guardar el numero del usuario en SharedPreferences
-            sharedPreferences.edit().putString("id_usuario", id_usuarioIntent).apply()
+
+            // Verifica si el valor recibido del Intent no es nulo
+            if (nombre_usuarioIntent != null) {
+                // Si no es nulo, guárdalo en SharedPreferences
+                sharedPreferences.edit().putString("nombre_usuario", nombre_usuarioIntent).apply()
+            }
+        } else if (idUsuario == 0) {
+            val idUsuarioIntent = intent.getIntExtra("id_usuario", 0)
+
+            // Verifica si el valor recibido del Intent no es cero
+            if (idUsuarioIntent != 0) {
+                // Guarda el valor en SharedPreferences
+                sharedPreferences.edit().putInt("id_usuario", idUsuarioIntent).apply()
+            }
         }
 
         findViewById<TextView>(R.id.nombreEmpleadoPrivilege).text = nombre_usuario
@@ -162,7 +167,7 @@ class HomePrivilegeActivity : AppCompatActivity() {
     }
 
     fun actualizarEstadoUsuario(nuevoEstado: Int) {
-        val url = "http://192.168.1.81/asistenciapp_mysql/actualizar_estado_usuario.php"
+        val url = "http://192.168.1.81/asistenciapp_mysql/actualizar_status.php"
         val idUsuario = obtenerIdUsuario() // Implementa esta función para obtener el ID del usuario
 
         // Crear la solicitud POST usando Volley

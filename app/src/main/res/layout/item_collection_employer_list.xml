@@ -31,21 +31,21 @@
 
                 <TextView
                     android:id="@+id/textNameEmpl"
-                    android:layout_width="0dp"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/circular_std"
                     android:layout_weight="0.6"
-                    android:textSize="20sp"
+                    android:fontFamily="@font/circular_std"
+                    android:text="@string/nombre"
                     android:textColor="@color/primario_azul_logo"
-                    tools:text="Nombre:" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/textNameColaborador"
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/robotobold"
                     android:layout_weight="0.4"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
                     android:textColor="@color/primario_azul_logo"
                     android:gravity="end"
                     tools:text="Alma Estrada" />
@@ -74,7 +74,7 @@
                     android:text="@string/text_collection_collaborator_number" />
 
                 <TextView
-                    android:id="@+id/textSupervisorIdCollectionPendingList"
+                    android:id="@+id/textEmployerId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -104,7 +104,7 @@
                     android:text="@string/text_collection_cambiar_status" />
 
                 <TextView
-                    android:id="@+id/textFolioCollectionPendingList"
+                    android:id="@+id/statusEmployer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

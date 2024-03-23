@@ -38,13 +38,16 @@
     <string name="text_splas_titulo">AsistenciApp</string>
     <string name="text_subt_splash">Campus Digital</string>
     <string name="text_collection_collaborator_number">No. de colaborador:</string>
-    <string name="text_collection_cambiar_status">Cambiar Status:</string>
+    <string name="text_collection_cambiar_status">Estado:</string>
     <string name="enter_employee">Ingresa tu # de Empleado correctamente.</string>
     <string name="enter_password">Ingresa tu contraseña correctamente.</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="terminos_y_condiciones">Terminos y condiciones</string>
-    <string name="terminos_condiciones">Su usuario y contraseña personal en informatica equivalen a su firma y se utiliza para autenticarte ante la aplicacion AsistenciApp. El registro de asistencia solo es para el conteo del personal en el edificio, no se toma en cuenta para las horas trabajadas.</string>
+    <string name="terminos_condiciones">Su usuario y contraseña personal en informatica equivalen a su firma y se utiliza para autenticarte ante la aplicacion AsistenciApp. \n\nEl registro de asistencia solo es para el conteo del personal en el edificio, no se toma en cuenta para las horas trabajadas.</string>
     <string name="aceptar">Aceptar</string>
     <string name="texto_cierre_Sesion">¿Estás seguro de que deseas cerrar la sesión?</string>
     <string name="cancelar">Cancelar</string>
+    <string name="pausa">Pausa</string>
+    <string name="vuelta">Vuelta</string>
+    <string name="nombre">Nombre:</string>
 </resources>
