@@ -33,7 +33,8 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="false" >
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".asistenciaapp.HomePrivilegeActivity"

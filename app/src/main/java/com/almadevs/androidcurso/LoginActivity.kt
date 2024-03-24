@@ -15,6 +15,7 @@ import com.almadevs.androidcurso.asistenciaapp.HomeActivity
 import androidx.appcompat.widget.AppCompatEditText
 import android.view.MotionEvent
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -51,6 +52,14 @@ class LoginActivity : AppCompatActivity() {
             validarUsuario("http://192.168.1.81/asistenciapp_mysql/validar_usuario.php")
         }
 
+        ediTextUsuario.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                editTextPassword.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
         val editTextPassword: AppCompatEditText = findViewById(R.id.editTextPassword)
 
         editTextPassword.setOnTouchListener { _, event ->
@@ -64,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
             }
             false
         }
+
     }
 
     private fun validarUsuario(url: String) {

@@ -1,5 +1,6 @@
 package com.almadevs.androidcurso.asistenciaapp
 
+import android.app.Dialog
 import android.graphics.Color
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
@@ -17,9 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.almadevs.androidcurso.R
 import com.almadevs.androidcurso.databinding.ActivityListEmpBinding
 import com.android.volley.Request
+import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
+import org.json.JSONObject
 import java.util.Locale
 
 
@@ -30,8 +34,6 @@ class ListEmpActivity : AppCompatActivity() {
     private var activeEmployeesButtonSelected = true
     private var inactiveEmployeesButtonSelected = false
 
-
-    var activityRoute: String = ""
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +47,10 @@ class ListEmpActivity : AppCompatActivity() {
         val fechaActual = dateFormat.format(calendar.time)
 
         textDate.text = fechaActual
-        setOnclickListeners()
 
+        fetchEmployeesList(inactiveEmployeesButtonSelected)
+        fetchEmployeesList(activeEmployeesButtonSelected)
+        setOnclickListeners()
     }
 
     private fun setOnclickListeners() {
@@ -54,14 +58,14 @@ class ListEmpActivity : AppCompatActivity() {
             activeEmployeesButtonSelected = true
             inactiveEmployeesButtonSelected = false
             updateButtonStyles()
-            fetchEmployeesList()
+            fetchEmployeesList(activeEmployeesButtonSelected)
         }
 
         viewBinding.buttonEmpInactivos.setOnClickListener {
             activeEmployeesButtonSelected = false
             inactiveEmployeesButtonSelected = true
             updateButtonStyles()
-            fetchEmployeesList()
+            fetchEmployeesList(activeEmployeesButtonSelected)
         }
 
         viewBinding.imageButtonBackListEmpl.setOnClickListener {
@@ -69,9 +73,9 @@ class ListEmpActivity : AppCompatActivity() {
         }
     }
 
-    private fun fetchEmployeesList() {
+    private fun fetchEmployeesList(activeEmployeesButtonSelected: Boolean) {
         // URL del servicio según el botón seleccionado
-        val url = if (activeEmployeesButtonSelected) {
+        val url = if (this.activeEmployeesButtonSelected) {
             "http://192.168.1.81/asistenciapp_mysql/consultar_activos.php"
         } else {
             "http://192.168.1.81/asistenciapp_mysql/consultar_inactivos.php"
@@ -89,16 +93,19 @@ class ListEmpActivity : AppCompatActivity() {
                 val totalEmployees = employeesList.size
                 Log.d("TotalEmployees", "$totalEmployees")
                 // Actualizar el TextView correspondiente según el tipo de empleados
-                if (activeEmployeesButtonSelected) {
+                if (this.activeEmployeesButtonSelected) {
                     viewBinding.textTotalActivos.text = "$totalEmployees"
                 } else {
                     viewBinding.textTotalInactivos.text = "$totalEmployees"
                 }
-
             },
             { error ->
                 // Manejar errores de la solicitud
-                Toast.makeText(this, "Error al obtener la lista de empleados: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Error al obtener la lista de empleados: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             })
 
         // Agregar la solicitud a la cola de solicitudes de Volley
@@ -110,6 +117,14 @@ class ListEmpActivity : AppCompatActivity() {
         val adapter = EmployeeAdapter(employeesList)
         viewBinding.recyclerViewEmployees.layoutManager = LinearLayoutManager(this)
         viewBinding.recyclerViewEmployees.adapter = adapter
+
+        adapter.setOnItemClickListener { employee ->
+            Log.d(
+                "EmployeeList",
+                "Empleado seleccionado - ID: ${employee.id_usuario}, Nombre: ${employee.nombre_completo}"
+            )
+            showEmployeeDetailsModal(employee)
+        }
     }
 
     private fun updateButtonStyles() {
@@ -122,22 +137,103 @@ class ListEmpActivity : AppCompatActivity() {
         }
     }
 
-    private fun activateButton(button: Button, isActive: Boolean) {
-        if (isActive) {
-            button.background = ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.button_active_left_corner,
-                null
-            )
-            button.setTextColor(Color.WHITE)
-        } else {
-            button.background = ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.button_disable_right_corner,
-                null
-            )
-            button.setTextColor(ContextCompat.getColor(this, R.color.azul_app_asistencia))
+    private fun showEmployeeDetailsModal(employee: Employee) {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_cambio_status)
+        dialog.show()
+
+        val buttonChangeStatus = dialog.findViewById<Button>(R.id.acceptButtonStatus)
+        buttonChangeStatus.setOnClickListener {
+            // Determinar el nuevo estado del empleado
+            val newStatus = if (employee.status_usuario == 0) 1 else 0
+            // Aquí realizas la solicitud al servicio PHP para cambiar el estado del empleado
+            val url = "http://192.168.1.81/asistenciapp_mysql/cambio_status_admin.php"
+            val request = object : StringRequest(Method.POST, url,
+                Response.Listener { response ->
+                    // Procesa la respuesta del servicio
+                    val jsonResponse = JSONObject(response)
+                    val success = jsonResponse.getBoolean("success")
+                    val message = jsonResponse.getString("message")
+                    if (success) {
+                        // Estado cambiado exitosamente
+                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                        // Actualizar el estado del empleado localmente
+                        employee.status_usuario = newStatus
+                        // Puedes realizar acciones adicionales aquí, como actualizar la lista de empleados
+                    } else {
+                        // Error al cambiar el estado
+                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                    }
+                    dialog.dismiss()
+                    fetchEmployeesList(activeEmployeesButtonSelected)
+                },
+                Response.ErrorListener { error ->
+                    // Error de la solicitud
+                    Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                }) {
+                override fun getParams(): Map<String, String> {
+                    val params = HashMap<String, String>()
+                    params["id_usuario"] = employee.id_usuario.toString()
+                    // Envía el nuevo estado del empleado al servicio
+                    params["status_usuario"] = newStatus.toString()
+                    return params
+                }
+            }
+            Volley.newRequestQueue(this).add(request)
+        }
+        val buttonCancel = dialog.findViewById<Button>(R.id.cancelButtonStatus)
+        buttonCancel.setOnClickListener {
+            dialog.dismiss()
         }
     }
 
+    private fun activateButton(button: Button, isActive: Boolean) {
+        if (isActive) {
+            when (button) {
+                viewBinding.buttonStillToBePaidActivo -> {
+                    button.background = ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.button_active_left_corner,
+                        null
+                    )
+                    button.setTextColor(Color.WHITE)
+                }
+
+                viewBinding.buttonEmpInactivos -> {
+                    button.background = ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.button_active_right_corner,
+                        null
+                    )
+                    button.setTextColor(Color.WHITE)
+                }
+                else -> {
+                }
+            }
+        } else {
+            when (button) {
+                viewBinding.buttonStillToBePaidActivo -> {
+                    button.background = ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.button_disable_left_corner,
+                        null
+                    )
+                    button.setTextColor(ContextCompat.getColor(this, R.color.azul_app_asistencia))
+                }
+
+                viewBinding.buttonEmpInactivos -> {
+                    button.background = ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.button_disable_right_corner,
+                        null
+                    )
+                    button.setTextColor(ContextCompat.getColor(this, R.color.azul_app_asistencia))
+                }
+
+                else -> {
+
+                }
+            }
+        }
+    }
 }

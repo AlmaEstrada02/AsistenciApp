@@ -3,7 +3,7 @@ package com.almadevs.androidcurso.asistenciaapp
 class Employee (
     val id_usuario: String,
     val nombre_completo: String,
-    val status_usuario: Int,
+    var status_usuario: Int,
     val punto_encuentro: Int
 ) {
     fun getEstado(): String {
