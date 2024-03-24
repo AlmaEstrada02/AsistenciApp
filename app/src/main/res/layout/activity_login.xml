@@ -55,6 +55,7 @@
                 android:layout_height="45dp"
                 android:background="@color/white"
                 android:digits="0123456789"
+                android:imeOptions="actionNext"
                 android:ems="10"
                 android:hint="@string/employer_num"
                 android:inputType="number"
