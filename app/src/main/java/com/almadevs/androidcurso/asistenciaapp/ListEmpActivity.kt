@@ -1,8 +1,5 @@
 package com.almadevs.androidcurso.asistenciaapp
 
-import EmployeeAdapter
-import android.annotation.SuppressLint
-import android.app.ProgressDialog
 import android.graphics.Color
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
@@ -14,18 +11,17 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.almadevs.androidcurso.R
 import com.almadevs.androidcurso.databinding.ActivityListEmpBinding
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import java.util.Locale
+
 
 
 class ListEmpActivity : AppCompatActivity() {

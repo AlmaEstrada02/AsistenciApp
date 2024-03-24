@@ -34,7 +34,7 @@
     <string name="lista_empleados">Lista de empleados</string>
     <string name="reporte_empleados">Reporte de empleados</string>
     <string name="password_hint">Contraseña</string>
-    <string name="text_report_colab">Listado de colaboradores activos</string>
+    <string name="text_report_colab">¿Se encuentra en el punto de encuentro?</string>
     <string name="text_splas_titulo">AsistenciApp</string>
     <string name="text_subt_splash">Campus Digital</string>
     <string name="text_collection_collaborator_number">No. de colaborador:</string>
