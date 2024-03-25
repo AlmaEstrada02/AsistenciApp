@@ -29,7 +29,7 @@
 
     <dimen name="lbl_title">13sp</dimen>
     <dimen name="text_data">14sp</dimen>
-    <dimen name="default_radius">8dp</dimen>
+    <dimen name="default_radius">10dp</dimen>
     <dimen name="default_elevation">3dp</dimen>
     <dimen name="new_radius">20dp</dimen>
     <dimen name="snackbar_border_width">1dp</dimen>

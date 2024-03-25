@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/btnReport"
-        android:icon="@drawable/reporte"
+        android:icon="@drawable/report_list"
         android:title="@string/employee_report" />
 
     <item
         android:id="@+id/btnListEmp"
-        android:icon="@drawable/empleados"
+        android:icon="@drawable/list_colab"
         android:title="@string/employee_list" />
 
 </menu>
