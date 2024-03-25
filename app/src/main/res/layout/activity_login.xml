@@ -20,9 +20,18 @@
         tools:ignore="MissingConstraints,UseCompoundDrawables">
 
             <TextView
-                android:layout_width="250dp"
-                android:layout_height="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
+                android:text="@string/asistencia"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="50sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/asistencia_app"
                 android:textAlignment="center"
                 android:textColor="@color/white"

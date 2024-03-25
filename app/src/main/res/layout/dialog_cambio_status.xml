@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/DialogSituacion"
-    android:layout_width="340sp"
+    android:layout_width="320sp"
     android:layout_height="wrap_content"
     android:background="@drawable/background_dialog"
     android:theme="@style/AppMaterialTheme">
@@ -29,8 +29,7 @@
         android:gravity="center"
         android:text="@string/texto_cambio_status"
         android:textColor="@color/colorTextCoppelNegro"
-        android:textSize="17sp" />
-
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.almadevs.androidcurso.asistenciaapp
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -86,8 +87,6 @@ class HomePrivilegeActivity : AppCompatActivity() {
         val dateFormat = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault())
         val fechaActual = dateFormat.format(calendar.time)
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.collectionMenuBottomNavigation)
-        //Obtener referencia del menu mas
-        val toolbar = findViewById<MaterialToolbar>(R.id.toolbarHomePagePrivilege)
 
         //Terminos y condiciones desde el menu
         val dialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_layout, null)
@@ -132,32 +131,10 @@ class HomePrivilegeActivity : AppCompatActivity() {
             true
         }
 
-        toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.informacion -> {
-                    // Manejar la acción del elemento "Información"
-                    dialog.show()
-                    true
-                }
-                R.id.cerrar_sesion -> {
-                    // Manejar la acción del elemento "Cerrar Sesión"
-                   AlertDialog.Builder(this)
-                        .setTitle("Cerrar Sesión")
-                        .setMessage("¿Estás seguro de que deseas cerrar la sesión?")
-                        .setPositiveButton("Aceptar") { dialog, which ->
-                            val intent = Intent(this, LoginActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                        .setNegativeButton("Cancelar", null)
-                        .show()
-                    true
-                }
-                else -> false
-            }
-        }
+        val menuButton = findViewById<ImageButton>(R.id.imageButtonProfile)
 
-
+        // Establecer clic en el ImageButton para mostrar el menú emergente
+        menuButton.setOnClickListener { showPopupMenuPrivilege(menuButton) }
     }
     private fun obtenerIdUsuario(): Int {
         val sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
@@ -215,5 +192,44 @@ class HomePrivilegeActivity : AppCompatActivity() {
         val intent = Intent( this, ListEmpActivity::class.java)
         startActivity(intent)
     }
+    fun showPopupMenuPrivilege(view: View) {
+        val popupMenu = PopupMenu(this, view)
+        popupMenu.menuInflater.inflate(R.menu.menu_dashboard, popupMenu.menu)
 
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.informacion -> {
+                    val dialog = Dialog(this)
+                    dialog.setContentView(R.layout.dialog_info)
+                    dialog.show()
+                    true
+                }
+
+                R.id.cerrar_sesion -> {
+                    // Manejar la acción del elemento "Cerrar Sesión"
+                    val dialogView =
+                        LayoutInflater.from(this).inflate(R.layout.dialog_close_sesion, null)
+                    val dialogBuilder = AlertDialog.Builder(this)
+                        .setView(dialogView)
+
+                    val dialog = dialogBuilder.show()
+
+                    dialogView.findViewById<Button>(R.id.acceptButton).setOnClickListener {
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                        dialog.dismiss()
+                    }
+
+                    dialogView.findViewById<Button>(R.id.cancelButton).setOnClickListener {
+                        dialog.dismiss()
+                    }
+
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
 }

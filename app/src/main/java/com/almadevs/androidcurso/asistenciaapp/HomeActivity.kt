@@ -1,5 +1,6 @@
 package com.almadevs.androidcurso.asistenciaapp
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -12,13 +13,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.PopupMenu
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.almadevs.androidcurso.LoginActivity
@@ -69,20 +73,6 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        //modal menu cierre de sesion
-        val toolbar = findViewById<MaterialToolbar>(R.id.toolbarHomePage)
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_layout, null)
-        val builder = AlertDialog.Builder(this)
-        val buttonAceptar = dialogView.findViewById<Button>(R.id.buttonAceptar)
-
-
-        builder.setView(dialogView)
-        val dialog = builder.create()
-
-        buttonAceptar.setOnClickListener {
-            dialog.dismiss() // Cierra el diálogo
-        }
-
         //Actualizar estatus
         viewStart = findViewById(R.id.start)
         viewPause = findViewById(R.id.pause)
@@ -107,31 +97,10 @@ class HomeActivity : AppCompatActivity() {
         // Establecer la fecha actual en el TextView
         textDate.text = fechaActual
 
-        toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.informacion -> {
-                    // Manejar la acción del elemento "Información"
-                    dialog.show()
-                    true
-                }
-                R.id.cerrar_sesion -> {
-                    // Manejar la acción del elemento "Cerrar Sesión"
-                    AlertDialog.Builder(this)
-                        .setTitle("Cerrar Sesión")
-                        .setMessage("¿Estás seguro de que deseas cerrar la sesión?")
-                        .setPositiveButton("Aceptar") { dialog, which ->
-                            val intent = Intent(this, LoginActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                        .setNegativeButton("Cancelar", null)
-                        .show()
-                    true
-                }
-                else -> false
-            }
-        }
+        val menuButton = findViewById<ImageButton>(R.id.imageButtonMenu)
 
+        // Establecer clic en el ImageButton para mostrar el menú emergente
+        menuButton.setOnClickListener { showPopupMenu(menuButton) }
     }
 
     private fun obtenerIdUsuario(): Int {
@@ -194,5 +163,44 @@ class HomeActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+    fun showPopupMenu(view: View) {
+        val popupMenu = PopupMenu(this, view)
+        popupMenu.menuInflater.inflate(R.menu.menu_dashboard, popupMenu.menu)
 
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.informacion -> {
+                    val dialog = Dialog(this)
+                    dialog.setContentView(R.layout.dialog_info)
+                    dialog.show()
+                    true
+                }
+
+                R.id.cerrar_sesion -> {
+                    // Manejar la acción del elemento "Cerrar Sesión"
+                    val dialogView =
+                        LayoutInflater.from(this).inflate(R.layout.dialog_close_sesion, null)
+                    val dialogBuilder = AlertDialog.Builder(this)
+                        .setView(dialogView)
+
+                    val dialog = dialogBuilder.show()
+
+                    dialogView.findViewById<Button>(R.id.acceptButton).setOnClickListener {
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                        dialog.dismiss()
+                    }
+
+                    dialogView.findViewById<Button>(R.id.cancelButton).setOnClickListener {
+                        dialog.dismiss()
+                    }
+
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
 }
