@@ -47,9 +47,7 @@ class ListEmpActivity : AppCompatActivity() {
         val fechaActual = dateFormat.format(calendar.time)
 
         textDate.text = fechaActual
-
-        fetchEmployeesList(inactiveEmployeesButtonSelected)
-        fetchEmployeesList(activeEmployeesButtonSelected)
+        fetchEmployeesLists()
         setOnclickListeners()
     }
 
@@ -76,9 +74,9 @@ class ListEmpActivity : AppCompatActivity() {
     private fun fetchEmployeesList(activeEmployeesButtonSelected: Boolean) {
         // URL del servicio según el botón seleccionado
         val url = if (this.activeEmployeesButtonSelected) {
-            "http://192.168.1.81/asistenciapp_mysql/consultar_activos.php"
+            "http://192.168.130.63/asistenciapp_mysql/consultar_activos.php"
         } else {
-            "http://192.168.1.81/asistenciapp_mysql/consultar_inactivos.php"
+            "http://192.168.130.63/asistenciapp_mysql/consultar_inactivos.php"
         }
 
         // Crear una solicitud GET a la URL
@@ -110,6 +108,73 @@ class ListEmpActivity : AppCompatActivity() {
 
         // Agregar la solicitud a la cola de solicitudes de Volley
         Volley.newRequestQueue(this).add(request)
+    }
+
+    private fun fetchEmployeesLists() {
+        // URL de las consultas de empleados activos e inactivos
+        val urlActivos = "http://192.168.130.63/asistenciapp_mysql/consultar_activos.php"
+        val urlInactivos = "http://192.168.130.63/asistenciapp_mysql/consultar_inactivos.php"
+
+        // Variables para almacenar el total de empleados activos e inactivos
+        var totalActivos = 0
+        var totalInactivos = 0
+
+        // Crear una solicitud GET para empleados inactivos
+        val requestInactivos = JsonArrayRequest(Request.Method.GET, urlInactivos, null,
+            { response ->
+                // Analizar la respuesta JSON utilizando Gson
+                val gson = Gson()
+                val employeesList = gson.fromJson(response.toString(), Array<Employee>::class.java)
+
+                // Asignar el tamaño de la lista de empleados inactivos a totalInactivos
+                totalInactivos = employeesList.size
+
+                // Mostrar la lista de empleados inactivos (aquí debes implementar tu lógica)
+                displayEmployeesList(employeesList)
+
+                // Actualizar el TextView correspondiente para empleados inactivos
+                viewBinding.textTotalInactivos.text = "$totalInactivos"
+            },
+            { error ->
+                // Manejar errores de la solicitud
+                Toast.makeText(
+                    this,
+                    "Error al obtener la lista de empleados inactivos: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            })
+
+        // Crear una solicitud GET para empleados activos
+        val requestActivos = JsonArrayRequest(Request.Method.GET, urlActivos, null,
+            { response ->
+                // Analizar la respuesta JSON utilizando Gson
+                val gson = Gson()
+                val employeesList = gson.fromJson(response.toString(), Array<Employee>::class.java)
+
+                // Asignar el tamaño de la lista de empleados activos a totalActivos
+                totalActivos = employeesList.size
+
+                // Mostrar la lista de empleados activos (aquí debes implementar tu lógica)
+                displayEmployeesList(employeesList)
+
+                // Actualizar el TextView correspondiente para empleados activos
+                viewBinding.textTotalActivos.text = "$totalActivos"
+            },
+            { error ->
+                // Manejar errores de la solicitud
+                Toast.makeText(
+                    this,
+                    "Error al obtener la lista de empleados activos: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            })
+
+
+        // Agregar las solicitudes a la cola de solicitudes de Volley
+        Volley.newRequestQueue(this).apply {
+            add(requestInactivos)
+            add(requestActivos)
+        }
     }
 
     // Función para mostrar la lista de empleados
@@ -147,7 +212,7 @@ class ListEmpActivity : AppCompatActivity() {
             // Determinar el nuevo estado del empleado
             val newStatus = if (employee.status_usuario == 0) 1 else 0
             // Aquí realizas la solicitud al servicio PHP para cambiar el estado del empleado
-            val url = "http://192.168.1.81/asistenciapp_mysql/cambio_status_admin.php"
+            val url = "http://192.168.130.63/asistenciapp_mysql/cambio_status_admin.php"
             val request = object : StringRequest(Method.POST, url,
                 Response.Listener { response ->
                     // Procesa la respuesta del servicio
@@ -165,7 +230,7 @@ class ListEmpActivity : AppCompatActivity() {
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                     }
                     dialog.dismiss()
-                    fetchEmployeesList(activeEmployeesButtonSelected)
+                    fetchEmployeesLists()
                 },
                 Response.ErrorListener { error ->
                     // Error de la solicitud

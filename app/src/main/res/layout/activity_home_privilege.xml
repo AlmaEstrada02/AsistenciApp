@@ -7,7 +7,7 @@
     android:background="@color/background_gris_claro"
     tools:context=".asistenciaapp.HomePrivilegeActivity">
 
-    <RelativeLayout
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarHomePagePrivilege"
         android:layout_width="match_parent"
         android:layout_height="90dp"
@@ -15,35 +15,47 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:subtitleTextColor="@color/white"
+        app:title="AsistenciApp"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/AppTheme.Text.Collection.Toolbar"
+        app:titleTextColor="@color/white">
 
+        <LinearLayout
+            android:id="@+id/menu_privilege"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center_vertical"
+            android:orientation="vertical"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:text="AsistenciApp"
-            android:textColor="@color/white"
-            android:textSize="35sp"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imageMenuPrivilege"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="7dp"
+                android:src="@drawable/menu"
+                android:background="?attr/selectableItemBackground"
+                app:tint="@color/white">
+            </ImageView>
 
-        <ImageButton
-            android:id="@+id/imageButtonProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/menu"
-            android:onClick="showPopupMenu"/>
+            <TextView
+                android:id="@+id/textViewToolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/menu_mas"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_gravity="end|center_vertical" />
+        </LinearLayout>
 
-    </RelativeLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardInfoEmpleadoPrivilege"

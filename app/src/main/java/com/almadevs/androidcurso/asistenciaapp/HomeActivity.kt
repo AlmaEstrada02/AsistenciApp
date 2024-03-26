@@ -20,6 +20,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
@@ -47,6 +48,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var viewExit: CardView
 
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var exitDialog: AlertDialog
 
     @SuppressLint("MissingInflatedId")
     @RequiresApi(Build.VERSION_CODES.N)
@@ -101,6 +103,34 @@ class HomeActivity : AppCompatActivity() {
 
         // Establecer clic en el ImageButton para mostrar el menú emergente
         menuButton.setOnClickListener { showPopupMenu(menuButton) }
+
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_close_sesion, null)
+        val dialogBuilder = AlertDialog.Builder(this)
+            .setView(dialogView)
+
+        exitDialog = dialogBuilder.create()
+
+        dialogView.findViewById<Button>(R.id.acceptButton).setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+            exitDialog.dismiss()
+        }
+
+        // Configurar el listener de clic para el botón "Cancelar"
+        dialogView.findViewById<Button>(R.id.cancelButton).setOnClickListener {
+            exitDialog.dismiss()
+        }
+
+        // Crear el callback para manejar el evento onBackPressed
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Mostrar el cuadro de diálogo de confirmación
+                exitDialog.show()
+            }
+        }
+        // Registrar el callback con el OnBackPressedDispatcher
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     private fun obtenerIdUsuario(): Int {
@@ -111,7 +141,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun actualizarEstadoUsuario(nuevoEstado: Int) {
-        val url = "http://192.168.1.81/asistenciapp_mysql/actualizar_status.php"
+        val url = "http://192.168.130.63/asistenciapp_mysql/actualizar_status.php"
         val idUsuario = obtenerIdUsuario() // Implementa esta función para obtener el ID del usuario
 
         // Crear la solicitud POST usando Volley
