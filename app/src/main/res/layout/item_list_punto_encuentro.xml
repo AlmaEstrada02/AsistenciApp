@@ -30,7 +30,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textNameEmpl"
+                    android:id="@+id/textNomEmpl"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
