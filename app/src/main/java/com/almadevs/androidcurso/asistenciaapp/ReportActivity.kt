@@ -1,6 +1,7 @@
 package com.almadevs.androidcurso.asistenciaapp
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,15 +14,17 @@ import com.almadevs.androidcurso.R
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
+import org.json.JSONException
+import org.json.JSONObject
 
 class ReportActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId", "WrongViewCast")
     private val employeeList = mutableListOf<Employee>()
     private lateinit var employeeRecyclerView: RecyclerView
-    private lateinit var employeeAdapter: EmployeePuntoEncuentro
+    private lateinit var employeeEncuentro: EmployeePuntoEncuentro
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +39,8 @@ class ReportActivity : AppCompatActivity() {
         // Inicializar RecyclerView y su adaptador
         employeeRecyclerView = findViewById(R.id.recyclerViewListaReport)
         employeeRecyclerView.layoutManager = LinearLayoutManager(this)
-        employeeAdapter = EmployeePuntoEncuentro(employeeList)
-        employeeRecyclerView.adapter = employeeAdapter
+        employeeEncuentro = EmployeePuntoEncuentro(employeeList)
+        employeeRecyclerView.adapter = employeeEncuentro
 
         // Obtener la lista de empleados
         fetchEmployeeList()
@@ -62,6 +65,62 @@ class ReportActivity : AppCompatActivity() {
         }
     }
 
+    private fun cambioPuntoModal(employee: Employee) {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_punto_encuentro)
+        dialog.show()
+
+        val buttonChangeStatus = dialog.findViewById<Button>(R.id.accepPuntoEcuentro)
+        buttonChangeStatus.setOnClickListener {
+            // Determinar el nuevo estado del empleado
+            val newStatusPunto = if (employee.punto_encuentro == 0) 1 else 0
+            // Aquí realizas la solicitud al servicio PHP para cambiar el estado del empleado
+            val url = "http://192.168.1.81/asistenciapp_mysql/modificar_punto_encuentro_admin.php"
+            val request = object : StringRequest(
+                Method.POST, url,
+                Response.Listener { response ->
+                    // Procesa la respuesta del servicio
+                    try {
+                        val jsonResponse = JSONObject(response)
+                        val success = jsonResponse.getBoolean("success")
+                        val message = jsonResponse.getString("message")
+                        if (success) {
+                            // Estado cambiado exitosamente
+                            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                            // Actualizar el estado del empleado localmente
+                            employee.punto_encuentro = newStatusPunto
+                            // Notificar al adaptador del RecyclerView para que actualice la vista
+                            employeeEncuentro.notifyDataSetChanged()
+                        } else {
+                            // Error al cambiar el estado
+                            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                    dialog.dismiss()
+                },
+                Response.ErrorListener { error ->
+                    // Error de la solicitud
+                    Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                }) {
+                override fun getParams(): Map<String, String> {
+                    val params = HashMap<String, String>()
+                    params["id_usuario"] = employee.id_usuario.toString()
+                    // Envía el nuevo estado del empleado al servicio
+                    params["punto_encuentro"] = newStatusPunto.toString()
+                    return params
+                }
+            }
+            Volley.newRequestQueue(this).add(request)
+        }
+        val buttonCancel = dialog.findViewById<Button>(R.id.cancelButtonStatus)
+        buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun fetchEmployeeList() {
         // URL del servicio para obtener la lista de empleados
@@ -81,8 +140,11 @@ class ReportActivity : AppCompatActivity() {
                     employeeList.add(employee)
                 }
 
+                employeeEncuentro.setOnItemClickListener { employee ->
+                   // cambioPuntoModal(employee)
+                }
                 // Notificar al adaptador que los datos han cambiado
-                employeeAdapter.notifyDataSetChanged()
+                employeeEncuentro.notifyDataSetChanged()
             },
             { error ->
                 // Manejar errores de la solicitud

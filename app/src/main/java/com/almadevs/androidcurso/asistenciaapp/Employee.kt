@@ -4,7 +4,7 @@ class Employee (
     val id_usuario: String,
     val nombre_completo: String,
     var status_usuario: Int,
-    val punto_encuentro: Int
+    var punto_encuentro: Int
 ) {
     fun getEstado(): String {
         return if (status_usuario == 0) {
