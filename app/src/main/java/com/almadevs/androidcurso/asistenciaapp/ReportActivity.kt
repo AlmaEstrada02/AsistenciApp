@@ -65,7 +65,7 @@ class ReportActivity : AppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     private fun fetchEmployeeList() {
         // URL del servicio para obtener la lista de empleados
-        val url = "http://192.168.130.63/asistenciapp_mysql/consultar_activos.php"
+        val url = "http://192.168.1.81/asistenciapp_mysql/consultar_activos.php"
 
         // Crear una solicitud GET a la URL
         val request = JsonArrayRequest(

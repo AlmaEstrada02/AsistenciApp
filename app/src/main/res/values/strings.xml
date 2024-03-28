@@ -47,9 +47,13 @@
     <string name="terminos_condiciones">Su usuario y contraseña personal en informatica equivalen a su firma y se utiliza para autenticarte ante la aplicacion AsistenciApp. \n\nEl registro de asistencia solo es para el conteo del personal en el edificio, no se toma en cuenta para las horas trabajadas.</string>
     <string name="aceptar">Aceptar</string>
     <string name="texto_cierre_Sesion">¿Estás seguro de que deseas cerrar la sesión?</string>
+    <string name="texto_punto_encuentro">¿Te encuentras en el punto de encuentro?</string>
     <string name="texto_cambio_status">¿Deseas cambiar el status del colaborador?</string>
     <string name="cancelar">Cancelar</string>
     <string name="pausa">Pausa</string>
     <string name="vuelta">Vuelta</string>
     <string name="nombre">Nombre:</string>
+    <string name="confirmar"> Si </string>
+    <string name="cancelarr"> No </string>
+
 </resources>

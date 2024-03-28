@@ -32,6 +32,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -87,6 +88,7 @@ class HomePrivilegeActivity : AppCompatActivity() {
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault())
         val fechaActual = dateFormat.format(calendar.time)
+
         val bottomNavigationView =
             findViewById<BottomNavigationView>(R.id.collectionMenuBottomNavigation)
 
@@ -121,22 +123,22 @@ class HomePrivilegeActivity : AppCompatActivity() {
             navigateToListEmpl()
             true
         }
-
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbarHomePagePrivilege)
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_close_sesion, null)
         val dialogBuilder = AlertDialog.Builder(this)
             .setView(dialogView)
 
         exitDialog = dialogBuilder.create()
 
-        dialogView.findViewById<Button>(R.id.acceptButton).setOnClickListener {
+        dialogView.findViewById<Button>(R.id.acceptButtonSesion).setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            finish()
+            finishAffinity()
             exitDialog.dismiss()
         }
 
         // Configurar el listener de clic para el botón "Cancelar"
-        dialogView.findViewById<Button>(R.id.cancelButton).setOnClickListener {
+        dialogView.findViewById<Button>(R.id.cancelButtonSesion).setOnClickListener {
             exitDialog.dismiss()
         }
 
@@ -150,8 +152,60 @@ class HomePrivilegeActivity : AppCompatActivity() {
         // Registrar el callback con el OnBackPressedDispatcher
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
-        val menuButton = findViewById<ImageButton>(R.id.imageMenuPrivilege)
-        menuButton.setOnClickListener { showPopupMenu(it) }
+        toolbar.setOnMenuItemClickListener() { menuItem ->
+            when (menuItem.itemId) {
+                R.id.informacion -> {
+                    // Crear y mostrar un diálogo personalizado para la opción "Información"
+                    val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_info, null)
+                    val dialogBuilder = AlertDialog.Builder(this)
+                        .setView(dialogView)
+
+                    val dialog = dialogBuilder.create()
+
+                    // Configurar el listener de clic para el botón "Aceptar" del diálogo
+                    dialogView.findViewById<Button>(R.id.acceptButtonInfo).setOnClickListener {
+                        dialog.dismiss()
+                    }
+
+                    // Mostrar el diálogo personalizado
+                    dialog.show()
+
+                    true
+
+                }
+
+                R.id.cerrar_sesion -> {
+                    // Crear un diálogo personalizado para la confirmación de cierre de sesión
+                    val dialogView =
+                        LayoutInflater.from(this).inflate(R.layout.dialog_close_sesion, null)
+                    val dialogBuilder = AlertDialog.Builder(this)
+                        .setView(dialogView)
+
+                    val dialog = dialogBuilder.create()
+
+                    // Configurar el listener de clic para el botón "Aceptar" del diálogo
+                    dialogView.findViewById<Button>(R.id.acceptButtonSesion).setOnClickListener {
+                        // Realizar la acción de cerrar sesión aquí
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                        finishAffinity()
+                        dialog.dismiss()
+                    }
+
+                    // Configurar el listener de clic para el botón "Cancelar" del diálogo
+                    dialogView.findViewById<Button>(R.id.cancelButtonSesion).setOnClickListener {
+                        dialog.dismiss()
+                    }
+
+                    // Mostrar el diálogo personalizado
+                    dialog.show()
+
+                    true
+                }
+
+                else -> false
+            }
+        }
 }
 
     private fun obtenerIdUsuario(): Int {
@@ -162,7 +216,7 @@ class HomePrivilegeActivity : AppCompatActivity() {
     }
 
     fun actualizarEstadoUsuario(nuevoEstado: Int) {
-        val url = "http://192.168.130.63/asistenciapp_mysql/actualizar_status.php"
+        val url = "http://192.168.1.81/asistenciapp_mysql/actualizar_status.php"
         val idUsuario = obtenerIdUsuario() // Implementa esta función para obtener el ID del usuario
 
         // Crear la solicitud POST usando Volley
@@ -215,86 +269,44 @@ class HomePrivilegeActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun showPopupMenu(view: View) {
-        val items = arrayOf(getString(R.string.terminos_y_condiciones), getString(R.string.cerrar_sesion))
+        /* fun showPopupMenuPrivilege(imageButton: ImageButton) {
+             val popupMenu = PopupMenu(this, imageButton)
+             popupMenu.menuInflater.inflate(R.menu.menu_dashboard, popupMenu.menu)
 
-        MaterialAlertDialogBuilder(this)
-            .setTitle(getString(R.string.menu_mas))
-            .setItems(items) { dialog, which ->
-                when (which) {
-                    0 -> {
-                        // Handle "Terminos y Condiciones" option
-                        // Aquí puedes colocar la lógica para mostrar los términos y condiciones
-                        Toast.makeText(this, "Mostrar términos y condiciones", Toast.LENGTH_SHORT).show()
-                    }
-                    1 -> {
-                        showLogoutConfirmationDialog()
-                    }
-                }
-            }
-            .show()
-    }
+             popupMenu.setOnMenuItemClickListener { menuItem ->
+                 when (menuItem.itemId) {
+                     R.id.informacion -> {
+                         val dialog = Dialog(this)
+                         dialog.setContentView(R.layout.custom_dialog_layout)
+                         dialog.show()
+                         true
+                     }
 
-    private fun showLogoutConfirmationDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_close_sesion, null)
-        val dialogBuilder = MaterialAlertDialogBuilder(this)
-            .setView(dialogView)
+                     R.id.cerrar_sesion -> {
+                         // Manejar la acción del elemento "Cerrar Sesión"
+                         val dialogView =
+                             LayoutInflater.from(this).inflate(R.layout.dialog_close_sesion, null)
+                         val dialogBuilder = AlertDialog.Builder(this)
+                             .setView(dialogView)
 
-        val dialog = dialogBuilder.create()
+                         val dialog = dialogBuilder.show()
 
-        dialogView.findViewById<Button>(R.id.acceptButton).setOnClickListener {
-            // Realizar la acción de cerrar sesión aquí
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-            dialog.dismiss()
-        }
+                         dialogView.findViewById<Button>(R.id.acceptButton).setOnClickListener {
+                             val intent = Intent(this, LoginActivity::class.java)
+                             startActivity(intent)
+                             finish()
+                             dialog.dismiss()
+                         }
 
-        dialogView.findViewById<Button>(R.id.cancelButton).setOnClickListener {
-            dialog.dismiss()
-        }
+                         dialogView.findViewById<Button>(R.id.cancelButton).setOnClickListener {
+                             dialog.dismiss()
+                         }
 
-        dialog.show()
-    }
+                         true
+                     }
 
-   /* fun showPopupMenuPrivilege(imageButton: ImageButton) {
-        val popupMenu = PopupMenu(this, imageButton)
-        popupMenu.menuInflater.inflate(R.menu.menu_dashboard, popupMenu.menu)
-
-        popupMenu.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.informacion -> {
-                    val dialog = Dialog(this)
-                    dialog.setContentView(R.layout.custom_dialog_layout)
-                    dialog.show()
-                    true
-                }
-
-                R.id.cerrar_sesion -> {
-                    // Manejar la acción del elemento "Cerrar Sesión"
-                    val dialogView =
-                        LayoutInflater.from(this).inflate(R.layout.dialog_close_sesion, null)
-                    val dialogBuilder = AlertDialog.Builder(this)
-                        .setView(dialogView)
-
-                    val dialog = dialogBuilder.show()
-
-                    dialogView.findViewById<Button>(R.id.acceptButton).setOnClickListener {
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                        dialog.dismiss()
-                    }
-
-                    dialogView.findViewById<Button>(R.id.cancelButton).setOnClickListener {
-                        dialog.dismiss()
-                    }
-
-                    true
-                }
-
-                else -> false
-            }
-        }
-    }*/
+                     else -> false
+                 }
+             }
+         }*/
 }
