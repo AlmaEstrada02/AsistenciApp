@@ -49,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
         buttonEntrar = findViewById(R.id.buttonEntrar)
 
         buttonEntrar.setOnClickListener {
-            validarUsuario("http://192.168.1.81/asistenciapp_mysql/validar_usuario.php")
+            validarUsuario("http://192.168.130.63/asistenciapp_mysql/validar_usuario.php")
         }
 
         ediTextUsuario.setOnEditorActionListener { _, actionId, _ ->

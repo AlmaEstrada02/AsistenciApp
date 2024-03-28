@@ -12,18 +12,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import com.almadevs.androidcurso.LoginActivity
 import com.almadevs.androidcurso.R
 import com.android.volley.AuthFailureError
@@ -32,8 +32,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import org.json.JSONObject
 import java.util.Locale
@@ -49,6 +49,7 @@ class HomePrivilegeActivity : AppCompatActivity() {
     private lateinit var btnListEmp: MenuItem
     private lateinit var sharedPreferences: SharedPreferences
 
+    private lateinit var exitDialog: AlertDialog
 
     @SuppressLint("MissingInflatedId", "WrongViewCast")
     @RequiresApi(Build.VERSION_CODES.N)
@@ -86,11 +87,8 @@ class HomePrivilegeActivity : AppCompatActivity() {
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault())
         val fechaActual = dateFormat.format(calendar.time)
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.collectionMenuBottomNavigation)
-
-        //Terminos y condiciones desde el menu
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_layout, null)
-        val buttonAceptar = dialogView.findViewById<Button>(R.id.buttonAceptar)
+        val bottomNavigationView =
+            findViewById<BottomNavigationView>(R.id.collectionMenuBottomNavigation)
 
         //Actualizar estatus
         viewStart = findViewById(R.id.startPtivilege)
@@ -110,13 +108,6 @@ class HomePrivilegeActivity : AppCompatActivity() {
         btnReport = menu.findItem(R.id.btnReport)
         btnListEmp = menu.findItem(R.id.btnListEmp)
 
-        val builder = AlertDialog.Builder(this)
-        builder.setView(dialogView)
-        val dialog = builder.create()
-
-        buttonAceptar.setOnClickListener {
-            dialog.dismiss() // Cierra el diálogo
-        }
 
         // Establecer la fecha actual en el TextView
         textDate.text = fechaActual
@@ -131,11 +122,38 @@ class HomePrivilegeActivity : AppCompatActivity() {
             true
         }
 
-        val menuButton = findViewById<ImageButton>(R.id.imageButtonProfile)
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_close_sesion, null)
+        val dialogBuilder = AlertDialog.Builder(this)
+            .setView(dialogView)
 
-        // Establecer clic en el ImageButton para mostrar el menú emergente
-        menuButton.setOnClickListener { showPopupMenuPrivilege(menuButton) }
-    }
+        exitDialog = dialogBuilder.create()
+
+        dialogView.findViewById<Button>(R.id.acceptButton).setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+            exitDialog.dismiss()
+        }
+
+        // Configurar el listener de clic para el botón "Cancelar"
+        dialogView.findViewById<Button>(R.id.cancelButton).setOnClickListener {
+            exitDialog.dismiss()
+        }
+
+        // Crear el callback para manejar el evento onBackPressed
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Mostrar el cuadro de diálogo de confirmación
+                exitDialog.show()
+            }
+        }
+        // Registrar el callback con el OnBackPressedDispatcher
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+
+        val menuButton = findViewById<ImageButton>(R.id.imageMenuPrivilege)
+        menuButton.setOnClickListener { showPopupMenu(it) }
+}
+
     private fun obtenerIdUsuario(): Int {
         val sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
         val idUsuario = sharedPreferences.getInt("id_usuario", 0)
@@ -144,7 +162,7 @@ class HomePrivilegeActivity : AppCompatActivity() {
     }
 
     fun actualizarEstadoUsuario(nuevoEstado: Int) {
-        val url = "http://192.168.1.81/asistenciapp_mysql/actualizar_status.php"
+        val url = "http://192.168.130.63/asistenciapp_mysql/actualizar_status.php"
         val idUsuario = obtenerIdUsuario() // Implementa esta función para obtener el ID del usuario
 
         // Crear la solicitud POST usando Volley
@@ -182,25 +200,72 @@ class HomePrivilegeActivity : AppCompatActivity() {
         requestQueue.add(stringRequest)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_dashboard, menu)
+        return true
+    }
 
     private fun navigateToReport() {
         val intent = Intent(this, ReportActivity::class.java)
         startActivity(intent)
     }
 
-    private fun navigateToListEmpl(){
-        val intent = Intent( this, ListEmpActivity::class.java)
+    private fun navigateToListEmpl() {
+        val intent = Intent(this, ListEmpActivity::class.java)
         startActivity(intent)
     }
-    fun showPopupMenuPrivilege(view: View) {
-        val popupMenu = PopupMenu(this, view)
+
+    private fun showPopupMenu(view: View) {
+        val items = arrayOf(getString(R.string.terminos_y_condiciones), getString(R.string.cerrar_sesion))
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.menu_mas))
+            .setItems(items) { dialog, which ->
+                when (which) {
+                    0 -> {
+                        // Handle "Terminos y Condiciones" option
+                        // Aquí puedes colocar la lógica para mostrar los términos y condiciones
+                        Toast.makeText(this, "Mostrar términos y condiciones", Toast.LENGTH_SHORT).show()
+                    }
+                    1 -> {
+                        showLogoutConfirmationDialog()
+                    }
+                }
+            }
+            .show()
+    }
+
+    private fun showLogoutConfirmationDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_close_sesion, null)
+        val dialogBuilder = MaterialAlertDialogBuilder(this)
+            .setView(dialogView)
+
+        val dialog = dialogBuilder.create()
+
+        dialogView.findViewById<Button>(R.id.acceptButton).setOnClickListener {
+            // Realizar la acción de cerrar sesión aquí
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<Button>(R.id.cancelButton).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+   /* fun showPopupMenuPrivilege(imageButton: ImageButton) {
+        val popupMenu = PopupMenu(this, imageButton)
         popupMenu.menuInflater.inflate(R.menu.menu_dashboard, popupMenu.menu)
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.informacion -> {
                     val dialog = Dialog(this)
-                    dialog.setContentView(R.layout.dialog_info)
+                    dialog.setContentView(R.layout.custom_dialog_layout)
                     dialog.show()
                     true
                 }
@@ -231,5 +296,5 @@ class HomePrivilegeActivity : AppCompatActivity() {
                 else -> false
             }
         }
-    }
+    }*/
 }
