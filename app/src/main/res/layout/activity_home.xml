@@ -7,43 +7,23 @@
     android:background="@color/background_gris_claro"
     tools:context=".asistenciaapp.HomeActivity">
 
-    <RelativeLayout
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarHomePage"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="80dp"
         android:background="@color/azul_app_asistencia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:subtitleTextColor="@color/white"
+        app:title="AsistenciApp"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/AppTheme.Text.Collection.Toolbar"
+        app:menu="@menu/menu_dashboard"
+        app:titleTextColor="@color/white">
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:layout_centerVertical="true"
-            android:text="AsistenciApp"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/white"
-            android:textSize="35sp"
-            android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/imageButtonMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/menu"
-            android:onClick="showPopupMenu"/>
-
-    </RelativeLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_info_empleado"

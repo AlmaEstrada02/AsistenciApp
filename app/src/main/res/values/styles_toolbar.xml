@@ -11,5 +11,14 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">26sp</item>
         <item name="android:fontFamily">@font/robotoblack</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
+    <style name="AppTheme.PopupMenu" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:fontFamily">@font/robotoblack</item>
+        <item name="android:popupBackground">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
 </resources>

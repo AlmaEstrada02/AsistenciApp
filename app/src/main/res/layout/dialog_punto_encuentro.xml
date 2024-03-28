@@ -14,11 +14,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:gravity="center"
-        app:srcCompat="@drawable/close"
+        app:srcCompat="@drawable/punto_encuentro"
         android:tint="@color/azul_app_asistencia"/>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/imageClosed"
@@ -27,7 +27,7 @@
         android:layout_marginEnd="30dp"
         android:fontFamily="@font/robotobold"
         android:gravity="center"
-        android:text="@string/texto_cierre_Sesion"
+        android:text="@string/texto_punto_encuentro"
         android:textColor="@color/colorTextCoppelNegro"
         android:textSize="18sp" />
 
@@ -35,13 +35,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/textView2"
+        android:layout_alignTop="@id/textView3"
         android:layout_marginTop="2dp"
         android:paddingTop="50dp"
         android:paddingBottom="25dp">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancelButtonSesion"
+            android:id="@+id/cancelPuntoEncuentro"
             style="@style/AppMaterialTheme.Button.Outlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,11 +49,11 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
-            android:text="@string/cancelar"
+            android:text="@string/cancelarr"
             android:textAllCaps="false" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/acceptButtonSesion"
+            android:id="@+id/accepPuntoEcuentro"
             style="@style/AppMaterialTheme.Button.Outlined.Blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="20dp"
             android:layout_weight="1"
-            android:text="@string/aceptar"
+            android:text="@string/confirmar"
             android:textAllCaps="false" />
     </LinearLayout>
 </RelativeLayout>

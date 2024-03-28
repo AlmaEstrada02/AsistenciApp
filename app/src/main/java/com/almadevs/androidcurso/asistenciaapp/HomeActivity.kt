@@ -23,6 +23,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.PopupMenu
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -99,10 +100,7 @@ class HomeActivity : AppCompatActivity() {
         // Establecer la fecha actual en el TextView
         textDate.text = fechaActual
 
-        val menuButton = findViewById<ImageButton>(R.id.imageButtonMenu)
-
-        // Establecer clic en el ImageButton para mostrar el menú emergente
-        menuButton.setOnClickListener { showPopupMenu(menuButton) }
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbarHomePage)
 
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_close_sesion, null)
         val dialogBuilder = AlertDialog.Builder(this)
@@ -110,15 +108,15 @@ class HomeActivity : AppCompatActivity() {
 
         exitDialog = dialogBuilder.create()
 
-        dialogView.findViewById<Button>(R.id.acceptButton).setOnClickListener {
+        dialogView.findViewById<Button>(R.id.acceptButtonSesion).setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            finish()
+            finishAffinity()
             exitDialog.dismiss()
         }
 
         // Configurar el listener de clic para el botón "Cancelar"
-        dialogView.findViewById<Button>(R.id.cancelButton).setOnClickListener {
+        dialogView.findViewById<Button>(R.id.cancelButtonSesion).setOnClickListener {
             exitDialog.dismiss()
         }
 
@@ -131,6 +129,129 @@ class HomeActivity : AppCompatActivity() {
         }
         // Registrar el callback con el OnBackPressedDispatcher
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+
+        toolbar.setOnMenuItemClickListener() { menuItem ->
+            when (menuItem.itemId) {
+                R.id.informacion -> {
+                    // Crear y mostrar un diálogo personalizado para la opción "Información"
+                    val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_info, null)
+                    val dialogBuilder = AlertDialog.Builder(this)
+                        .setView(dialogView)
+
+                    val dialog = dialogBuilder.create()
+
+                    // Configurar el listener de clic para el botón "Aceptar" del diálogo
+                    dialogView.findViewById<Button>(R.id.acceptButtonInfo).setOnClickListener {
+                        dialog.dismiss()
+                    }
+
+                    // Mostrar el diálogo personalizado
+                    dialog.show()
+
+                    true
+
+                }
+
+                R.id.cerrar_sesion -> {
+                    // Crear un diálogo personalizado para la confirmación de cierre de sesión
+                    val dialogView =
+                        LayoutInflater.from(this).inflate(R.layout.dialog_close_sesion, null)
+                    val dialogBuilder = AlertDialog.Builder(this)
+                        .setView(dialogView)
+
+                    val dialog = dialogBuilder.create()
+
+                    // Configurar el listener de clic para el botón "Aceptar" del diálogo
+                    dialogView.findViewById<Button>(R.id.acceptButtonSesion).setOnClickListener {
+                        // Realizar la acción de cerrar sesión aquí
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                        finishAffinity()
+                        dialog.dismiss()
+                    }
+
+                    // Configurar el listener de clic para el botón "Cancelar" del diálogo
+                    dialogView.findViewById<Button>(R.id.cancelButtonSesion).setOnClickListener {
+                        dialog.dismiss()
+                    }
+
+                    // Mostrar el diálogo personalizado
+                    dialog.show()
+
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+        val meetingPointButton = findViewById<AppCompatButton>(R.id.meetingPoint)
+        meetingPointButton.setOnClickListener {
+            val dialogView =
+                LayoutInflater.from(this).inflate(R.layout.dialog_punto_encuentro, null)
+            val dialogBuilder = AlertDialog.Builder(this)
+                .setView(dialogView)
+
+            val dialog = dialogBuilder.create()
+
+            // Configurar el listener de clic para el botón "Aceptar" del diálogo
+            dialogView.findViewById<Button>(R.id.accepPuntoEcuentro).setOnClickListener {
+                // Realizar la acción de cerrar sesión aquí
+                actualizarEstadoPuntoEncuentro(0)
+                dialog.dismiss()
+            }
+
+            // Configurar el listener de clic para el botón "Cancelar" del diálogo
+            dialogView.findViewById<Button>(R.id.cancelPuntoEncuentro).setOnClickListener {
+                actualizarEstadoPuntoEncuentro(1)
+                dialog.dismiss()
+            }
+
+            // Mostrar el diálogo personalizado
+            dialog.show()
+
+            true
+        }
+
+    }
+
+    fun actualizarEstadoPuntoEncuentro(nuevoEstado: Int) {
+        val url = "http://192.168.1.81/asistenciapp_mysql/punto_encuentro.php"
+        val idUsuario = obtenerIdUsuario() // Implementa esta función para obtener el ID del usuario
+
+        // Crear la solicitud POST usando Volley
+        val stringRequest = object : StringRequest(
+            Request.Method.POST, url,
+            Response.Listener<String> { response ->
+                // Manejar la respuesta del servidor
+                val jsonObject = JSONObject(response)
+                val success = jsonObject.getBoolean("success")
+                val message = jsonObject.getString("message")
+                if (success) {
+                    // Actualización exitosa, mostrar mensaje de éxito
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                } else {
+                    // Error en la actualización, mostrar mensaje de error
+                    Snackbar.make(viewStart, message, Snackbar.LENGTH_SHORT).show()
+                }
+            },
+            Response.ErrorListener { error ->
+                // Error de conexión, mostrar mensaje de error
+                Snackbar.make(viewStart, error.toString(), Snackbar.LENGTH_SHORT).show()
+            }) {
+            // Sobrescribir el método getParams para enviar los parámetros POST
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params = HashMap<String, String>()
+                params["id_usuario"] = idUsuario.toString()
+                params["punto_encuentro"] = nuevoEstado.toString()
+                return params
+            }
+        }
+
+        // Agregar la solicitud a la cola de solicitudes de Volley
+        val requestQueue: RequestQueue = Volley.newRequestQueue(this)
+        requestQueue.add(stringRequest)
     }
 
     private fun obtenerIdUsuario(): Int {
@@ -141,7 +262,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun actualizarEstadoUsuario(nuevoEstado: Int) {
-        val url = "http://192.168.130.63/asistenciapp_mysql/actualizar_status.php"
+        val url = "http://192.168.1.81/asistenciapp_mysql/actualizar_status.php"
         val idUsuario = obtenerIdUsuario() // Implementa esta función para obtener el ID del usuario
 
         // Crear la solicitud POST usando Volley
@@ -179,8 +300,6 @@ class HomeActivity : AppCompatActivity() {
         requestQueue.add(stringRequest)
     }
 
-
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_dashboard, menu)
         return super.onCreateOptionsMenu(menu)
@@ -215,14 +334,14 @@ class HomeActivity : AppCompatActivity() {
 
                     val dialog = dialogBuilder.show()
 
-                    dialogView.findViewById<Button>(R.id.acceptButton).setOnClickListener {
+                    dialogView.findViewById<Button>(R.id.acceptButtonSesion).setOnClickListener {
                         val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
                         finish()
                         dialog.dismiss()
                     }
 
-                    dialogView.findViewById<Button>(R.id.cancelButton).setOnClickListener {
+                    dialogView.findViewById<Button>(R.id.cancelButtonSesion).setOnClickListener {
                         dialog.dismiss()
                     }
 

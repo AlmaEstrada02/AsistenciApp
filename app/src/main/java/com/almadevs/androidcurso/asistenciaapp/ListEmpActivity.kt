@@ -74,9 +74,9 @@ class ListEmpActivity : AppCompatActivity() {
     private fun fetchEmployeesList(activeEmployeesButtonSelected: Boolean) {
         // URL del servicio según el botón seleccionado
         val url = if (this.activeEmployeesButtonSelected) {
-            "http://192.168.130.63/asistenciapp_mysql/consultar_activos.php"
+            "http://192.168.1.81/asistenciapp_mysql/consultar_activos.php"
         } else {
-            "http://192.168.130.63/asistenciapp_mysql/consultar_inactivos.php"
+            "http://192.168.1.81/asistenciapp_mysql/consultar_inactivos.php"
         }
 
         // Crear una solicitud GET a la URL
@@ -112,8 +112,8 @@ class ListEmpActivity : AppCompatActivity() {
 
     private fun fetchEmployeesLists() {
         // URL de las consultas de empleados activos e inactivos
-        val urlActivos = "http://192.168.130.63/asistenciapp_mysql/consultar_activos.php"
-        val urlInactivos = "http://192.168.130.63/asistenciapp_mysql/consultar_inactivos.php"
+        val urlActivos = "http://192.168.1.81/asistenciapp_mysql/consultar_activos.php"
+        val urlInactivos = "http://192.168.1.81/asistenciapp_mysql/consultar_inactivos.php"
 
         // Variables para almacenar el total de empleados activos e inactivos
         var totalActivos = 0
@@ -212,7 +212,7 @@ class ListEmpActivity : AppCompatActivity() {
             // Determinar el nuevo estado del empleado
             val newStatus = if (employee.status_usuario == 0) 1 else 0
             // Aquí realizas la solicitud al servicio PHP para cambiar el estado del empleado
-            val url = "http://192.168.130.63/asistenciapp_mysql/cambio_status_admin.php"
+            val url = "http://192.168.1.81/asistenciapp_mysql/cambio_status_admin.php"
             val request = object : StringRequest(Method.POST, url,
                 Response.Listener { response ->
                     // Procesa la respuesta del servicio
@@ -224,13 +224,12 @@ class ListEmpActivity : AppCompatActivity() {
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                         // Actualizar el estado del empleado localmente
                         employee.status_usuario = newStatus
-                        // Puedes realizar acciones adicionales aquí, como actualizar la lista de empleados
+                        fetchEmployeesLists()
                     } else {
                         // Error al cambiar el estado
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                     }
                     dialog.dismiss()
-                    fetchEmployeesLists()
                 },
                 Response.ErrorListener { error ->
                     // Error de la solicitud
