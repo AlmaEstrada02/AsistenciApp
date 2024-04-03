@@ -24,10 +24,10 @@
             style="@style/AppMaterialTheme.Button.Outlined.Blue"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="260dp"
             android:layout_centerHorizontal="true"
             android:text="@string/aceptar"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="10dp"
             android:textAllCaps="false" />
 
 
